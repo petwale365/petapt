@@ -29,15 +29,15 @@ export default function NotFound() {
 
         {/* Action Buttons */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-          <Button variant="default" asChild className="w-full sm:w-auto">
-            <Link href="/">
+          <Button variant="default" className="w-full sm:w-auto">
+            <Link href="/" className="flex items-center justify-center">
               <Home className="mr-2 h-4 w-4" />
+              Back to Home
             </Link>
-            Back to Home
           </Button>
 
-          <Button variant="outline" asChild className="w-full sm:w-auto">
-            <Link href="/login">
+          <Button variant="outline" className="w-full sm:w-auto">
+            <Link href="/login" className="flex items-center justify-center">
               <ArrowLeft className="mr-2 h-4 w-4" />
               Login
             </Link>
