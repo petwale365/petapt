@@ -83,7 +83,6 @@ export type Database = {
           is_active: boolean | null
           metadata: Json | null
           name: string
-          parent_id: string | null
           seo_description: string | null
           seo_keywords: string[] | null
           seo_title: string | null
@@ -98,7 +97,6 @@ export type Database = {
           is_active?: boolean | null
           metadata?: Json | null
           name: string
-          parent_id?: string | null
           seo_description?: string | null
           seo_keywords?: string[] | null
           seo_title?: string | null
@@ -113,22 +111,13 @@ export type Database = {
           is_active?: boolean | null
           metadata?: Json | null
           name?: string
-          parent_id?: string | null
           seo_description?: string | null
           seo_keywords?: string[] | null
           seo_title?: string | null
           slug?: string
           sort_order?: number | null
         }
-        Relationships: [
-          {
-            foreignKeyName: "categories_parent_id_fkey"
-            columns: ["parent_id"]
-            isOneToOne: false
-            referencedRelation: "categories"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       collections: {
         Row: {
@@ -273,71 +262,40 @@ export type Database = {
           },
         ]
       }
-      product_attribute_values: {
+      product_attributes: {
         Row: {
-          attribute_id: string | null
           created_at: string | null
           id: string
-          product_id: string | null
+          name: string
+          product_id: string
+          unit: string | null
           value: string
         }
         Insert: {
-          attribute_id?: string | null
           created_at?: string | null
           id?: string
-          product_id?: string | null
+          name: string
+          product_id: string
+          unit?: string | null
           value: string
         }
         Update: {
-          attribute_id?: string | null
           created_at?: string | null
           id?: string
-          product_id?: string | null
+          name?: string
+          product_id?: string
+          unit?: string | null
           value?: string
         }
         Relationships: [
           {
-            foreignKeyName: "product_attribute_values_attribute_id_fkey"
-            columns: ["attribute_id"]
-            isOneToOne: false
-            referencedRelation: "product_attributes"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "product_attribute_values_product_id_fkey"
+            foreignKeyName: "product_attributes_product_id_fkey"
             columns: ["product_id"]
             isOneToOne: false
             referencedRelation: "products"
             referencedColumns: ["id"]
           },
         ]
-      }
-      product_attributes: {
-        Row: {
-          created_at: string | null
-          display_name: string
-          id: string
-          name: string
-          type: string
-          unit: string | null
-        }
-        Insert: {
-          created_at?: string | null
-          display_name: string
-          id?: string
-          name: string
-          type: string
-          unit?: string | null
-        }
-        Update: {
-          created_at?: string | null
-          display_name?: string
-          id?: string
-          name?: string
-          type?: string
-          unit?: string | null
-        }
-        Relationships: []
       }
       product_categories: {
         Row: {

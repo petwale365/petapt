@@ -6,7 +6,10 @@ import { BreadcrumbPage } from "@/components/ui/breadcrumb";
 const pageTitles: Record<string, string> = {
   "/admin": "Dashboard",
   "/admin/products": "Products",
-  "/admin/products/categories": "Categories",
+  "/admin/categories": "Categories",
+  "/admin/collections": "Collections",
+  "/admin/collections/new": "New Collection",
+  "/admin/products/new": "New Product",
   "/admin/products/inventory": "Inventory",
   "/admin/orders": "Orders",
   "/admin/orders/invoices": "Invoices",

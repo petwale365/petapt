@@ -19,7 +19,7 @@ export default async function AdminDashboard() {
   //   .select("*", { count: "exact", head: true });
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 p-2 md:p-8">
       <h1 className="text-3xl font-bold">Dashboard</h1>
 
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">

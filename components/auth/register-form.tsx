@@ -14,6 +14,7 @@ import { useTransition } from "react";
 import Link from "next/link";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
+import PasswordInput from "./password-input";
 
 // Validation schema
 const registerSchema = z
@@ -103,6 +104,25 @@ export default function RegisterForm() {
     });
   }
 
+  async function handleGoogleLogin() {
+    startTransition(async () => {
+      try {
+        await supabase.auth.signInWithOAuth({
+          provider: "google",
+          options: {
+            redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback?next=/`,
+          },
+        });
+      } catch (error) {
+        if (error instanceof Error) {
+          toast.error("Failed to login. Please try again");
+        } else {
+          toast.error("An unexpected error occurred");
+        }
+      }
+    });
+  }
+
   return (
     <Card className="w-[400px] shadow-2xl shadow-stone-300">
       <CardContent className="p-6 pt-8">
@@ -151,10 +171,9 @@ export default function RegisterForm() {
             </div>
             <div className="space-y-2">
               <Label htmlFor="password">Password</Label>
-              <Input
+              <PasswordInput
                 id="password"
                 placeholder="Create a password"
-                type="password"
                 {...register("password")}
                 aria-invalid={!!errors.password}
               />
@@ -166,10 +185,9 @@ export default function RegisterForm() {
             </div>
             <div className="space-y-2">
               <Label htmlFor="confirmPassword">Confirm Password</Label>
-              <Input
+              <PasswordInput
                 id="confirmPassword"
                 placeholder="Confirm your password"
-                type="password"
                 {...register("confirmPassword")}
                 aria-invalid={!!errors.confirmPassword}
               />
@@ -197,7 +215,12 @@ export default function RegisterForm() {
           <span className="text-xs text-muted-foreground">Or</span>
         </div>
 
-        <Button variant="outline" className="w-full gap-2" disabled={isPending}>
+        <Button
+          variant="outline"
+          className="w-full gap-2"
+          disabled={isPending}
+          onClick={handleGoogleLogin}
+        >
           <FaGoogle className="size-4" />
           Sign up with Google
         </Button>

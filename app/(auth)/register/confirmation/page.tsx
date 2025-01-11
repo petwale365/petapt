@@ -17,7 +17,7 @@ export default function ConfirmationPage() {
               Check your email
             </h2>
             <p className="text-sm text-muted-foreground text-center">
-              We've sent you a confirmation email. Please check your inbox and
+              We have sent you a confirmation email. Please check your inbox and
               follow the instructions to verify your account.
             </p>
           </CardHeader>

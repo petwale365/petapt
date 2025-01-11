@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { ReactNode } from "react";
 
 interface AuthLayoutProps {
@@ -24,7 +25,22 @@ export default async function AuthLayout({ children }: AuthLayoutProps) {
       <main className="flex-1 flex items-center justify-center px-4 py-20">
         <div className="w-full">
           {/* Max width wrapper for forms */}
-          <div className="mx-auto max-w-[400px]">{children}</div>
+
+          <div className="mx-auto max-w-[400px] ">
+            {/* Logo */}
+            <div className="flex items-center justify-center space-x-4 mb-8">
+              <Link
+                href="/"
+                className="flex items-center space-x-2 hover:text-foreground underline-offset-4 hover:underline"
+              >
+                <span className="text-2xl font-bold uppercase italic">
+                  Petapt
+                </span>
+              </Link>
+            </div>
+
+            {children}
+          </div>
 
           {/* Footer Links */}
           <div className="mt-6 text-center text-sm text-muted-foreground">

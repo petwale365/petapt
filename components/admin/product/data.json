@@ -1,0 +1,228 @@
+{
+  "name": "Barker's Bites 100% Natural Licious Treat Chicken Liver | Fresh Chicken | High Protein | Liver, Chicken Dog Treat (100 g)",
+  "description": "Feast your eyes on the 100% Natural Licious Treat Chicken Liver! This delectable treat is made with fresh chicken and boasts a high protein content, making it a paw-some choice for your furry friend. Not only is it packed with flavor, but it also provides essential nutrients to keep your pet happy and healthy. With the utmost care taken in crafting these treats, you can rest assured that your beloved companion is enjoying a top-quality snack. Treat them to the best with Licious Treat Chicken Liver and watch their tail wag with delight!",
+  "base_price": 199,
+  "sale_price": 188,
+  "category_id": "f4a76276-d4c3-4d77-a36e-52b83968f660",
+  "is_active": true,
+  "is_featured": false,
+  "images": [
+    {
+      "url": "https://chdkjsjndlrqpvtbyhmc.supabase.co/storage/v1/object/public/products/product-images/0.8599361790541935.jpeg",
+      "alt_text": "",
+      "is_thumbnail": true,
+      "sort_order": 0
+    },
+    {
+      "url": "https://chdkjsjndlrqpvtbyhmc.supabase.co/storage/v1/object/public/products/product-images/0.1367749595712353.jpeg",
+      "alt_text": "",
+      "is_thumbnail": false,
+      "sort_order": 1
+    },
+    {
+      "url": "https://chdkjsjndlrqpvtbyhmc.supabase.co/storage/v1/object/public/products/product-images/0.6304129801095055.jpeg",
+      "alt_text": "",
+      "is_thumbnail": false,
+      "sort_order": 2
+    },
+    {
+      "url": "https://chdkjsjndlrqpvtbyhmc.supabase.co/storage/v1/object/public/products/product-images/0.9684000562560886.jpeg",
+      "alt_text": "",
+      "is_thumbnail": false,
+      "sort_order": 3
+    },
+    {
+      "url": "https://chdkjsjndlrqpvtbyhmc.supabase.co/storage/v1/object/public/products/product-images/0.5509189197373459.jpeg",
+      "alt_text": "",
+      "is_thumbnail": false,
+      "sort_order": 4
+    }
+  ],
+  "options": [
+    {
+      "name": "Quantitiy",
+      "display_name": "Quantitiy",
+      "values": [
+        {
+          "value": "100g",
+          "display_value": "100g"
+        },
+        {
+          "value": "300g",
+          "display_value": "300g"
+        },
+        {
+          "value": "600g",
+          "display_value": "600g"
+        }
+      ]
+    },
+    {
+      "name": "Flavor",
+      "display_name": "Flavor",
+      "values": [
+        {
+          "value": "liver",
+          "display_value": "Liver"
+        },
+        {
+          "value": "chicken",
+          "display_value": "Chicken"
+        }
+      ]
+    }
+  ],
+  "variants": [
+    {
+      "sku": "Qu-100g-Fl-liver",
+      "price": 199,
+      "stock_quantity": 100,
+      "is_active": true,
+      "option_values": [
+        {
+          "option_id": "Quantitiy",
+          "value_id": "100g"
+        },
+        {
+          "option_id": "Flavor",
+          "value_id": "liver"
+        }
+      ]
+    },
+    {
+      "sku": "Qu-100g-Fl-chicken",
+      "price": 199,
+      "stock_quantity": 100,
+      "is_active": true,
+      "option_values": [
+        {
+          "option_id": "Quantitiy",
+          "value_id": "100g"
+        },
+        {
+          "option_id": "Flavor",
+          "value_id": "chicken"
+        }
+      ]
+    },
+    {
+      "sku": "Qu-300g-Fl-liver",
+      "price": 597,
+      "stock_quantity": 100,
+      "is_active": true,
+      "option_values": [
+        {
+          "option_id": "Quantitiy",
+          "value_id": "300g"
+        },
+        {
+          "option_id": "Flavor",
+          "value_id": "liver"
+        }
+      ]
+    },
+    {
+      "sku": "Qu-300g-Fl-chicken",
+      "price": 597,
+      "stock_quantity": 100,
+      "is_active": true,
+      "option_values": [
+        {
+          "option_id": "Quantitiy",
+          "value_id": "300g"
+        },
+        {
+          "option_id": "Flavor",
+          "value_id": "chicken"
+        }
+      ]
+    },
+    {
+      "sku": "Qu-600g-Fl-liver",
+      "price": 1194,
+      "stock_quantity": 100,
+      "is_active": true,
+      "option_values": [
+        {
+          "option_id": "Quantitiy",
+          "value_id": "600g"
+        },
+        {
+          "option_id": "Flavor",
+          "value_id": "liver"
+        }
+      ]
+    },
+    {
+      "sku": "Qu-600g-Fl-chicken",
+      "price": 1194,
+      "stock_quantity": 100,
+      "is_active": true,
+      "option_values": [
+        {
+          "option_id": "Quantitiy",
+          "value_id": "600g"
+        },
+        {
+          "option_id": "Flavor",
+          "value_id": "chicken"
+        }
+      ]
+    }
+  ],
+  "attributes": [
+    {
+      "name": "brand",
+      "display_name": "Brand",
+      "value": "Barker's Bites"
+    },
+    {
+      "name": "model_number",
+      "display_name": "Model Number",
+      "value": "100% Natural Licious Treat Chicken Liver | Fresh Chicken | High Protein |"
+    },
+    {
+      "name": "pet_type",
+      "display_name": "Pet Type",
+      "value": "Dog"
+    },
+    {
+      "name": "suitable_for",
+      "display_name": "Suitable For",
+      "value": "All Life Stage"
+    },
+    {
+      "name": "form",
+      "display_name": "Form",
+      "value": "Stick"
+    },
+    {
+      "name": "flavor",
+      "display_name": "Flavor",
+      "value": "Liver, Chicken"
+    },
+    {
+      "name": "used_for",
+      "display_name": "Used For",
+      "value": "Training, Dental health, Digestion"
+    },
+    {
+      "name": "ingredients",
+      "display_name": "Ingredients",
+      "value": "Mentioned on Product Image"
+    },
+    {
+      "name": "maximum_shelf_life",
+      "display_name": "Maximum Shelf Life",
+      "value": "18 Months"
+    },
+    {
+      "name": "caloric_content_per_serving",
+      "display_name": "Caloric Content Per Serving",
+      "value": "500"
+    }
+  ],
+  "seo_title": "",
+  "seo_description": "",
+  "seo_keywords": []
+}

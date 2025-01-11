@@ -14,7 +14,6 @@ export type Product = Tables<"products">;
 export type ProductVariant = Tables<"product_variants">;
 export type ProductImage = Tables<"product_images">;
 export type ProductAttribute = Tables<"product_attributes">;
-export type ProductAttributeValue = Tables<"product_attribute_values">;
 export type ProductOption = Tables<"product_options">;
 export type ProductOptionValue = Tables<"option_values">;
 export type ProductCategory = Tables<"product_categories">;
