@@ -1,7 +1,7 @@
 // app/admin/products/[id]/page.tsx
 import { Suspense } from "react";
 import { createClient } from "@/utils/supabase/server";
-import { notFound } from "next/navigation";
+
 import { Metadata } from "next";
 import { ProductHeader } from "@/components/admin/product/details/product-header";
 import { ProductContent } from "@/components/admin/product/details/product-content";
@@ -79,7 +79,7 @@ export default async function ProductDetailsPage({
     .single();
 
   if (error || !product) {
-    notFound();
+    return null;
   }
 
   const updatedProduct = {

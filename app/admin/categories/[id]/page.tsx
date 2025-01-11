@@ -1,4 +1,3 @@
-import { notFound } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
 import { format } from "date-fns";
 import {
@@ -50,7 +49,7 @@ export default async function CategoryDetails({
     .single();
 
   if (error || !category) {
-    notFound();
+    return null;
   }
 
   const products = category.products.map((p) => p.product);

@@ -4,7 +4,7 @@ import { createClient } from "@/utils/supabase/server";
 import { PageHeader } from "@/components/page-header";
 import { ProductForm } from "@/components/admin/product/product-form";
 import { Separator } from "@/components/ui/separator";
-import { notFound } from "next/navigation";
+
 import { Metadata } from "next";
 
 import type {
@@ -94,14 +94,14 @@ export default async function EditProductPage({
       product: productResponse.error,
       categories: categoriesResponse.error,
     });
-    notFound();
+    return null;
   }
 
   const product = productResponse.data as unknown as ProductWithRelations;
   const categories = categoriesResponse.data;
 
   if (!product || !categories) {
-    notFound();
+    return null;
   }
 
   // Transform the data to match our form structure

@@ -1,5 +1,5 @@
 // app/admin/collections/[id]/edit/page.tsx
-import { notFound } from "next/navigation";
+
 import { createClient } from "@/utils/supabase/server";
 import { Separator } from "@/components/ui/separator";
 import { PageHeader } from "@/components/page-header";
@@ -19,7 +19,7 @@ export default async function EditCollectionPage({
     .single();
 
   if (error || !collection) {
-    notFound();
+    return null;
   }
 
   return (

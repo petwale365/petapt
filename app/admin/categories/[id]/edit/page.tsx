@@ -1,6 +1,5 @@
 // src/app/admin/categories/[id]/page.tsx
 import { Suspense } from "react";
-import { notFound } from "next/navigation";
 
 import { Separator } from "@/components/ui/separator";
 import CategoryForm from "@/components/admin/categories/category-form";
@@ -23,7 +22,7 @@ export default async function EditCategoryPage({ params }: CategoryPageProps) {
   ]);
 
   if (error || !category) {
-    notFound();
+    return null;
   }
 
   return (
