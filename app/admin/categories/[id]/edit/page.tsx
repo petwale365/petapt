@@ -1,6 +1,5 @@
 // src/app/admin/categories/[id]/page.tsx
 import { Suspense } from "react";
-
 import { Separator } from "@/components/ui/separator";
 import CategoryForm from "@/components/admin/categories/category-form";
 import { createClient } from "@/utils/supabase/server";
@@ -13,7 +12,7 @@ interface CategoryPageProps {
 }
 
 export default async function EditCategoryPage({ params }: CategoryPageProps) {
-  const id = await params;
+  const id = (await params).id;
   const supabase = await createClient();
 
   // Fetch the category and all categories for parent selection
