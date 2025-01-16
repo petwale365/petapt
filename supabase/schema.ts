@@ -262,6 +262,164 @@ export type Database = {
           },
         ]
       }
+      order_items: {
+        Row: {
+          created_at: string | null
+          id: string
+          order_id: string
+          product_id: string
+          quantity: number
+          total_price: number
+          unit_price: number
+          variant_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          order_id: string
+          product_id: string
+          quantity: number
+          total_price: number
+          unit_price: number
+          variant_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          order_id?: string
+          product_id?: string
+          quantity?: number
+          total_price?: number
+          unit_price?: number
+          variant_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "order_items_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "order_items_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "order_items_variant_id_fkey"
+            columns: ["variant_id"]
+            isOneToOne: false
+            referencedRelation: "product_variants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      orders: {
+        Row: {
+          billing_address_id: string
+          breadth: number | null
+          courier_name: string | null
+          created_at: string | null
+          height: number | null
+          id: string
+          length: number | null
+          order_number: string
+          payment_method: Database["public"]["Enums"]["payment_method"]
+          payment_status: Database["public"]["Enums"]["payment_status"]
+          pickup_location: string | null
+          razorpay_order_id: string | null
+          razorpay_payment_id: string | null
+          shipment_id: number | null
+          shipping_address_id: string
+          shipping_fee: number | null
+          shiprocket_order_id: number | null
+          status: Database["public"]["Enums"]["order_status"]
+          subtotal: number
+          total_amount: number
+          tracking_number: string | null
+          updated_at: string | null
+          user_id: string
+          weight: number | null
+        }
+        Insert: {
+          billing_address_id: string
+          breadth?: number | null
+          courier_name?: string | null
+          created_at?: string | null
+          height?: number | null
+          id?: string
+          length?: number | null
+          order_number: string
+          payment_method: Database["public"]["Enums"]["payment_method"]
+          payment_status?: Database["public"]["Enums"]["payment_status"]
+          pickup_location?: string | null
+          razorpay_order_id?: string | null
+          razorpay_payment_id?: string | null
+          shipment_id?: number | null
+          shipping_address_id: string
+          shipping_fee?: number | null
+          shiprocket_order_id?: number | null
+          status?: Database["public"]["Enums"]["order_status"]
+          subtotal: number
+          total_amount: number
+          tracking_number?: string | null
+          updated_at?: string | null
+          user_id: string
+          weight?: number | null
+        }
+        Update: {
+          billing_address_id?: string
+          breadth?: number | null
+          courier_name?: string | null
+          created_at?: string | null
+          height?: number | null
+          id?: string
+          length?: number | null
+          order_number?: string
+          payment_method?: Database["public"]["Enums"]["payment_method"]
+          payment_status?: Database["public"]["Enums"]["payment_status"]
+          pickup_location?: string | null
+          razorpay_order_id?: string | null
+          razorpay_payment_id?: string | null
+          shipment_id?: number | null
+          shipping_address_id?: string
+          shipping_fee?: number | null
+          shiprocket_order_id?: number | null
+          status?: Database["public"]["Enums"]["order_status"]
+          subtotal?: number
+          total_amount?: number
+          tracking_number?: string | null
+          updated_at?: string | null
+          user_id?: string
+          weight?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "orders_billing_address_id_fkey"
+            columns: ["billing_address_id"]
+            isOneToOne: false
+            referencedRelation: "addresses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "orders_shipping_address_id_fkey"
+            columns: ["shipping_address_id"]
+            isOneToOne: false
+            referencedRelation: "addresses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "orders_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       product_attributes: {
         Row: {
           created_at: string | null
@@ -652,6 +810,33 @@ export type Database = {
           },
         ]
       }
+      shiprocket_auth: {
+        Row: {
+          created_at: string | null
+          email: string
+          expires_at: string
+          id: string
+          token: string
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          email: string
+          expires_at: string
+          id?: string
+          token: string
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          email?: string
+          expires_at?: string
+          id?: string
+          token?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       users: {
         Row: {
           avatar_url: string | null
@@ -754,6 +939,9 @@ export type Database = {
     }
     Enums: {
       address_type: "shipping" | "billing"
+      order_status: "new" | "processing" | "shipped" | "delivered" | "cancelled"
+      payment_method: "razorpay" | "cod"
+      payment_status: "pending" | "paid" | "failed"
     }
     CompositeTypes: {
       [_ in never]: never
