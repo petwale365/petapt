@@ -21,5 +21,6 @@ const pageTitles: Record<string, string> = {
 
 export default function BreadcrumbPageUrl() {
   const pathname = usePathname();
+  console.log(pathname);
   return <BreadcrumbPage>{pageTitles[pathname] || "Page"}</BreadcrumbPage>;
 }

@@ -1,83 +1,164 @@
-import Link from 'next/link';
+import { getCategoriesList } from "@/data/categories";
+import { getCollectionList } from "@/data/collections";
+import Link from "next/link";
+import { FaFacebook, FaInstagram, FaLinkedin, FaTwitter } from "react-icons/fa";
 
-export default function Footer() {
+export default async function Footer() {
+  const collections = await getCollectionList();
+  const categories = await getCategoriesList();
+
   return (
-    <footer className="bg-gray-900 text-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+    <footer className="relative w-full flex-shrink-0">
+      {/* Gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[#e7f5e7] via-[#d0ebd0] to-[#a5d6a5] opacity-90" />
+
+      <div className="relative px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+        {/* Main Footer Content */}
+        <div className="grid grid-cols-1 gap-8 py-12 md:grid-cols-2 lg:grid-cols-4">
           {/* Company Info */}
-          <div>
-            <h3 className="text-lg font-semibold mb-4">About Us</h3>
-            <p className="text-gray-400">
-              Your one-stop shop for all your needs. Quality products at the best prices.
+          <div className="space-y-4">
+            <Link href="/" className="block">
+              <h2 className="text-2xl font-bold text-gray-800">Petapt</h2>
+            </Link>
+            <p className="text-sm text-gray-700">
+              Your one-stop destination for all pet needs. Bringing joy to pets
+              and their families since 2024.
             </p>
+            <div className="flex pt-4 space-x-4">
+              <a
+                href="#"
+                className="text-gray-600 transition-colors duration-200 hover:text-gray-800"
+              >
+                <FaFacebook className="w-6 h-6" />
+              </a>
+              <a
+                href="#"
+                className="text-gray-600 transition-colors duration-200 hover:text-gray-800"
+              >
+                <FaInstagram className="w-6 h-6" />
+              </a>
+              <a
+                href="#"
+                className="text-gray-600 transition-colors duration-200 hover:text-gray-800"
+              >
+                <FaTwitter className="w-6 h-6" />
+              </a>
+              <a
+                href="#"
+                className="text-gray-600 transition-colors duration-200 hover:text-gray-800"
+              >
+                <FaLinkedin className="w-6 h-6" />
+              </a>
+            </div>
           </div>
 
-          {/* Quick Links */}
+          {/* Categories */}
           <div>
-            <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
+            <h3 className="mb-4 text-sm font-semibold tracking-wider text-gray-800 uppercase">
+              Categories
+            </h3>
             <ul className="space-y-2">
-              <li>
-                <Link href="/products" className="text-gray-400 hover:text-white">
-                  Products
-                </Link>
-              </li>
-              <li>
-                <Link href="/categories" className="text-gray-400 hover:text-white">
-                  Categories
-                </Link>
-              </li>
-              <li>
-                <Link href="/deals" className="text-gray-400 hover:text-white">
-                  Special Deals
-                </Link>
-              </li>
+              {categories?.map((category) => {
+                return (
+                  <li key={category.id}>
+                    <Link
+                      href={`/categories/${category.slug}`}
+                      className="text-sm text-gray-700 transition-colors duration-200 hover:text-gray-900"
+                    >
+                      {category.name}
+                    </Link>
+                  </li>
+                );
+              })}
             </ul>
           </div>
 
-          {/* Customer Service */}
+          {/* Collections */}
           <div>
-            <h3 className="text-lg font-semibold mb-4">Customer Service</h3>
-            <ul className="space-y-2">
+            <h3 className="mb-4 text-sm font-semibold tracking-wider text-gray-800 uppercase">
+              Collections
+            </h3>
+            <ul>
+              {collections?.map((collection) => {
+                return (
+                  <li key={collection.id}>
+                    <Link
+                      href={`/collections/${collection.slug}`}
+                      className="text-sm text-gray-700 transition-colors duration-200 hover:text-gray-900"
+                    >
+                      {collection.name}
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+
+          {/* Contact & Support */}
+          <div>
+            <h3 className="mb-4 text-sm font-semibold tracking-wider text-gray-800 uppercase">
+              Contact & Support
+            </h3>
+            <ul className="space-y-2 text-sm text-gray-700">
               <li>
-                <Link href="/contact" className="text-gray-400 hover:text-white">
+                <p>Email: petwale365@gmail.com</p>
+              </li>
+              <li>
+                <p>Phone: +91 8876911659</p>
+              </li>
+              <li></li>
+              <li>
+                <Link
+                  href="/contact"
+                  className="transition-colors duration-200 hover:text-gray-900"
+                >
                   Contact Us
                 </Link>
               </li>
               <li>
-                <Link href="/shipping" className="text-gray-400 hover:text-white">
-                  Shipping Information
-                </Link>
-              </li>
-              <li>
-                <Link href="/returns" className="text-gray-400 hover:text-white">
-                  Returns & Exchanges
+                <Link
+                  href="/faq"
+                  className="transition-colors duration-200 hover:text-gray-900"
+                >
+                  FAQ
                 </Link>
               </li>
             </ul>
           </div>
+        </div>
 
-          {/* Newsletter */}
-          <div>
-            <h3 className="text-lg font-semibold mb-4">Stay Connected</h3>
-            <p className="text-gray-400 mb-4">Subscribe to our newsletter for updates and exclusive offers.</p>
-            <form className="flex gap-2">
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="px-4 py-2 rounded-md bg-gray-800 text-white flex-grow"
-              />
-              <button type="submit" className="px-4 py-2 bg-blue-600 rounded-md hover:bg-blue-700">
-                Subscribe
-              </button>
-            </form>
+        {/* Bottom Bar */}
+        <div className="py-6 border-t border-green-200/50">
+          <div className="flex flex-col items-center justify-between space-y-4 sm:flex-row sm:space-y-0">
+            <p className="text-sm text-gray-700">
+              © {new Date().getFullYear()} Petapt. All rights reserved.
+            </p>
+            <div className="flex space-x-6">
+              <Link
+                href="/privacy"
+                className="text-sm text-gray-700 transition-colors duration-200 hover:text-gray-900"
+              >
+                Privacy Policy
+              </Link>
+              <Link
+                href="/terms"
+                className="text-sm text-gray-700 transition-colors duration-200 hover:text-gray-900"
+              >
+                Terms of Service
+              </Link>
+              <Link
+                href="/shipping"
+                className="text-sm text-gray-700 transition-colors duration-200 hover:text-gray-900"
+              >
+                Shipping Policy
+              </Link>
+            </div>
           </div>
         </div>
-
-        <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-          <p>&copy; {new Date().getFullYear()} EStore. All rights reserved.</p>
-        </div>
       </div>
+
+      {/* Decorative bottom wave */}
+      {/* <div className="absolute bottom-0 left-0 right-0 h-6 bg-gradient-to-r from-sky-200 via-sky-400 to-green-200" /> */}
     </footer>
   );
 }

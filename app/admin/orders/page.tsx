@@ -1,14 +1,13 @@
 // app/admin/orders/page.tsx
 import { PageHeader } from "@/components/page-header";
-import { createClient } from "@/utils/supabase/server";
 
 import { Separator } from "@/components/ui/separator";
 
-import { OrdersTable } from "@/components/admin/orders/orders-table";
+// import { OrdersTable } from "@/components/admin/orders/orders-table";
 import { shiprocketRequest } from "@/utils/shiprocket/shiprocket";
 
 export default async function OrdersPage() {
-  const supabase = await createClient();
+  // const supabase = await createClient();
 
   // const { data: orders, error } = await supabase
   //   .from("orders")

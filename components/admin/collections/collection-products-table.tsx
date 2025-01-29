@@ -15,13 +15,33 @@ import { Button } from "@/components/ui/button";
 import { formatPrice } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
-import { ExternalLink } from "lucide-react";
+import { EllipsisVertical, Trash2Icon } from "lucide-react";
+
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { createClient } from "@/utils/supabase/client";
+import DeleteProductCollections from "./delete-product-collections";
 
 interface ProductsTableProps {
   products: any[];
+  collectionId: string;
+  existingProductIds?: string[];
 }
 
-export function ProductsTable({ products }: ProductsTableProps) {
+export function ProductsTable({
+  products,
+  collectionId,
+  existingProductIds,
+}: ProductsTableProps) {
   return (
     <div className="relative overflow-x-auto">
       <Table>
@@ -77,13 +97,11 @@ export function ProductsTable({ products }: ProductsTableProps) {
                 <TableCell>
                   {product.sale_price ? formatPrice(product.sale_price) : "—"}
                 </TableCell>
-                <TableCell className="text-right">
-                  <Button variant="ghost" size="icon" asChild>
-                    <Link href={`/admin/products/${product.id}`}>
-                      <ExternalLink className="h-4 w-4" />
-                      <span className="sr-only">View product details</span>
-                    </Link>
-                  </Button>
+                <TableCell className="text-center">
+                  <DeleteProductCollections
+                    productId={product.id}
+                    collectionId={collectionId}
+                  />
                 </TableCell>
               </TableRow>
             ))

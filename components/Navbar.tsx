@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ShoppingCart, Heart, LogIn, Shield } from "lucide-react";
+import { ShoppingCart, Heart, Shield } from "lucide-react";
 import {
   Bolt,
   BookOpen,
@@ -28,6 +28,7 @@ import { AppUser } from "@/supabase/types";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/utils/supabase/client";
 import { toast } from "sonner";
+import { PulsatingButton } from "./magic-ui/pulsating-button";
 
 interface NavbarProps {
   profile?: AppUser;
@@ -50,6 +51,7 @@ export default function Navbar({ profile }: NavbarProps) {
       },
     });
   };
+
   return (
     <nav className="fixed top-0 w-full bg-white shadow-sm z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -68,30 +70,30 @@ export default function Navbar({ profile }: NavbarProps) {
 
           {/* Navigation Links */}
           <div className="hidden md:flex items-center space-x-8">
-            <Link
-              href="/products"
-              className="text-gray-600 hover:text-gray-900"
-            >
+            <Link href="/products" className="text-gray-600 hover:text-primary">
               Products
             </Link>
             <Link
               href="/categories"
-              className="text-gray-600 hover:text-gray-900"
+              className="text-gray-600 hover:text-primary"
             >
               Categories
             </Link>
-            <Link href="/deals" className="text-gray-600 hover:text-gray-900">
-              Deals
+            <Link
+              href="/collections"
+              className="text-gray-600 hover:text-primary"
+            >
+              Collections
             </Link>
           </div>
 
           {/* Right Side Icons */}
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-6">
             <Link
-              href="/favorites"
-              className="text-gray-600 hover:text-gray-900"
+              href="/wishlist"
+              className="text-gray-600 hover:text-primary group transition-all duration-500 ease-in-out"
             >
-              <Heart className="h-6 w-6" />
+              <Heart className="h-6 w-6 group-hover:fill-primary" />
             </Link>
             <Link
               href="/cart"
@@ -224,8 +226,9 @@ export default function Navbar({ profile }: NavbarProps) {
                 href="/login"
                 className="flex items-center space-x-2 text-gray-600 hover:text-gray-900"
               >
-                <LogIn className="h-6 w-6" />
-                <span>Login</span>
+                <PulsatingButton className="whitespace-nowrap">
+                  Login
+                </PulsatingButton>
               </Link>
             )}
           </div>

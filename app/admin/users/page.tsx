@@ -40,8 +40,6 @@ export default async function UsersPage() {
     throw new Error(error.message);
   }
 
-  console.log("users", users);
-
   return (
     <div className="flex-1 space-y-4 p-2 md:p-8 pt-6">
       <div className="flex items-center justify-between">

@@ -15,7 +15,7 @@ import { Button } from "@/components/ui/button";
 
 import Image from "next/image";
 import Link from "next/link";
-import { ExternalLink } from "lucide-react";
+import { EllipsisVertical, ExternalLink } from "lucide-react";
 import { formatPrice } from "@/lib/utils";
 
 interface ProductsTableProps {
@@ -81,7 +81,7 @@ export function ProductsTable({ products }: ProductsTableProps) {
                 <TableCell className="text-right">
                   <Button variant="ghost" size="icon" asChild>
                     <Link href={`/admin/products/${product.id}`}>
-                      <ExternalLink className="h-4 w-4" />
+                      <EllipsisVertical className="h-4 w-4" />
                       <span className="sr-only">View product details</span>
                     </Link>
                   </Button>

@@ -1,3 +1,9 @@
+import CategoriesSection from "@/components/home/categories-sections";
+import CollectionsSection from "@/components/home/collections-section";
+import Hero from "@/components/home/hero";
+import { getCategoriesList } from "@/data/categories";
+import { getCollectionList } from "@/data/collections";
+
 export const metadata = {
   title: "Petapt - Find Your Perfect Pet",
   description:
@@ -5,11 +11,18 @@ export const metadata = {
 };
 
 export default async function Home() {
+  const [categories, collections] = await Promise.all([
+    getCategoriesList(),
+    getCollectionList(),
+  ]);
+  if (!categories || !collections) return null;
   return (
-    <div className="w-full h-screen flex items-center justify-center">
-      <h1 className="text-3xl font-bold text-gray-800">
-        Home Page will Be Here
-      </h1>
+    <div className="flex flex-col py-16 space-y-16">
+      <Hero />
+      <div className=" space-y-40 ">
+        <CategoriesSection categories={categories} />
+        <CollectionsSection collections={collections} />
+      </div>
     </div>
   );
 }

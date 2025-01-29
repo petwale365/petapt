@@ -18,8 +18,10 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ProductsTable } from "@/components/admin/categories/category-product-table";
+
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { AddProductsToCollection } from "@/components/admin/collections/add-products-dialog";
+import { ProductsTable } from "@/components/admin/collections/collection-products-table";
 
 export default async function CollectionDetails({
   params,
@@ -54,6 +56,7 @@ export default async function CollectionDetails({
   }
 
   const products = collection.products.map((p) => p.product);
+  const existingProducts = products.map((p) => p?.id);
 
   return (
     <div className="min-h-screen bg-background">
@@ -80,10 +83,7 @@ export default async function CollectionDetails({
                 className="hidden sm:inline-flex"
                 asChild
               >
-                <Link
-                  href={`/store/collections/${collection.slug}`}
-                  target="_blank"
-                >
+                <Link href={`/collections/${collection.slug}`} target="_blank">
                   <ExternalLink className="mr-2 h-4 w-4" />
                   Preview
                 </Link>
@@ -287,14 +287,20 @@ export default async function CollectionDetails({
                 Manage products in this collection
               </p>
             </div>
-            <Button variant="outline" size="sm" asChild>
-              <Link href={`/admin/products?collection=${collection.id}`}>
-                View All Products
-              </Link>
-            </Button>
+            <div className="flex items-center gap-2">
+              <AddProductsToCollection
+                collectionId={collection.id}
+                existingProductIds={existingProducts as string[]}
+              />
+              <Button variant="outline" size="sm" asChild>
+                <Link href={`/admin/products?collection=${collection.id}`}>
+                  View All Products
+                </Link>
+              </Button>
+            </div>
           </CardHeader>
           <Separator />
-          <ProductsTable products={products} />
+          <ProductsTable products={products} collectionId={collection.id} />
         </Card>
       </div>
     </div>

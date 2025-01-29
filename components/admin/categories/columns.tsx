@@ -38,7 +38,7 @@ export const columns: ColumnDef<Category>[] = [
         <div className="flex flex-col">
           <span className="font-medium">{row.original.name}</span>
           {row.original.description && (
-            <span className="text-sm text-muted-foreground line-clamp-1">
+            <span className="text-sm text-muted-foreground line-clamp-1 max-w-[200px]">
               {row.original.description}
             </span>
           )}
