@@ -6,6 +6,7 @@ import Link from "next/link";
 import { formatPrice } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import placeholderImage from "@/public/placeholder.png";
 
 interface Product {
   id: number;
@@ -27,13 +28,25 @@ export const ProductCard = ({ product }: ProductCardProps) => {
 
   return (
     <Link href={`/products/${product.slug}`}>
-      <Card className="group overflow-hidden rounded-lg border-2 hover:border-primary transition-all duration-300">
+      <Card className="group overflow-hidden rounded-lg border-[0.5px] hover:border-primary transition-all duration-300 ease-in-out">
         <CardContent className="p-0 relative">
-          {product.product_images && product.product_images[0] && (
+          {product?.product_images && product?.product_images[0] && (
             <div className="relative aspect-square">
               <Image
                 src={product.product_images[0].url}
                 alt={product.product_images[0].alt_text || product.name}
+                fill
+                className="object-cover transition-transform duration-300 group-hover:scale-105"
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+              />
+            </div>
+          )}
+
+          {product?.product_images?.length === 0 && (
+            <div className="relative aspect-square bg-gray-200">
+              <Image
+                src={placeholderImage}
+                alt={product.name}
                 fill
                 className="object-cover transition-transform duration-300 group-hover:scale-105"
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
@@ -48,13 +61,15 @@ export const ProductCard = ({ product }: ProductCardProps) => {
         </CardContent>
         <CardFooter className="p-4">
           <div className="space-y-2 w-full">
-            <h3 className="font-semibold text-lg truncate">{product.name}</h3>
-            <div className="flex items-center gap-2">
-              <span className="text-lg font-bold text-primary">
-                {formatPrice(product.sale_price || product.base_price)}
+            <h3 className="font-semibold sm:text-lg truncate text-xs ">
+              {product?.name}
+            </h3>
+            <div className="flex items-center gap-2 text-xs sm:text-lg">
+              <span className=" font-bold text-primary">
+                {formatPrice(product?.sale_price || product?.base_price)}
               </span>
-              {product.sale_price && (
-                <span className="text-sm text-muted-foreground line-through">
+              {product?.sale_price && (
+                <span className=" text-muted-foreground line-through">
                   {formatPrice(product.base_price)}
                 </span>
               )}

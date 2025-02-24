@@ -18,6 +18,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
+import { Button } from "@/components/ui/button";
 import { Category } from "@/supabase/types";
 
 interface ProductFiltersProps {
@@ -29,19 +30,33 @@ export const ProductFilters = ({
   categories,
   maxPrice,
 }: ProductFiltersProps) => {
-  const [selectedCategories, setSelectedCategories] =
-    useQueryState("categories");
-  const [priceRange, setPriceRange] = useQueryState("price");
-  console.log(priceRange);
-  const [sort, setSort] = useQueryState("sort");
+  const [selectedCategories, setSelectedCategories] = useQueryState(
+    "categories",
+    {
+      shallow: false,
+    }
+  );
 
-  const handleCategoryChange = (categoryId: string) => {
+  const [priceRange, setPriceRange] = useQueryState("price", {
+    shallow: false,
+  });
+
+  const [sort, setSort] = useQueryState("sort", {
+    shallow: false,
+  });
+
+  const [search, setSearch] = useQueryState("search", {
+    shallow: false,
+  });
+
+  const handleCategoryChange = (categorySlug: string) => {
     const currentCategories = selectedCategories
       ? selectedCategories.split(",")
       : [];
-    const newCategories = currentCategories.includes(categoryId)
-      ? currentCategories.filter((id) => id !== categoryId)
-      : [...currentCategories, categoryId];
+
+    const newCategories = currentCategories?.includes(categorySlug)
+      ? currentCategories.filter((slug) => slug !== categorySlug)
+      : [...currentCategories, categorySlug];
 
     setSelectedCategories(
       newCategories.length > 0 ? newCategories.join(",") : null
@@ -52,12 +67,36 @@ export const ProductFilters = ({
     setPriceRange(value.join("-"));
   };
 
+  const handleResetFilters = () => {
+    setSelectedCategories(null);
+    setSearch(null);
+    setPriceRange(null);
+    setSort(null);
+  };
+
+  const hasActiveFilters = Boolean(
+    selectedCategories || priceRange || sort || search
+  );
+
   return (
     <motion.div
       initial={{ opacity: 0, x: -20 }}
       animate={{ opacity: 1, x: 0 }}
-      className="w-full lg:w-64 space-y-4"
+      className="w-full lg:w-64 lg:sticky lg:top-24 lg:max-h-[calc(100vh-6rem)] lg:overflow-y-auto scrollbar-hide pb-8"
     >
+      <div className="flex items-center justify-between mb-4">
+        <h3 className="font-semibold">Filters</h3>
+        {hasActiveFilters && (
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={handleResetFilters}
+            className="text-muted-foreground hover:text-primary"
+          >
+            Reset All
+          </Button>
+        )}
+      </div>
       <div className="space-y-2">
         <Label>Sort By</Label>
         <Select
@@ -81,14 +120,18 @@ export const ProductFilters = ({
           <AccordionTrigger>Categories</AccordionTrigger>
           <AccordionContent>
             <div className="space-y-2">
-              {categories.map((category) => (
-                <div key={category.id} className="flex items-center space-x-2">
+              {categories?.map((category) => (
+                <div key={category?.id} className="flex items-center space-x-2">
                   <Checkbox
-                    id={category.slug}
-                    checked={selectedCategories?.includes(category.slug)}
-                    onCheckedChange={() => handleCategoryChange(category.slug)}
+                    id={category?.slug}
+                    checked={
+                      selectedCategories
+                        ? selectedCategories.split(",").includes(category?.slug)
+                        : false
+                    }
+                    onCheckedChange={() => handleCategoryChange(category?.slug)}
                   />
-                  <Label htmlFor={category.slug}>{category.name}</Label>
+                  <Label htmlFor={category?.slug}>{category?.name}</Label>
                 </div>
               ))}
             </div>

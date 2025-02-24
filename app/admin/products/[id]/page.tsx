@@ -83,39 +83,39 @@ export default async function ProductDetailsPage({
   }
 
   const updatedProduct = {
-    id: product.id,
-    slug: product.slug,
-    name: product.name,
-    description: product.description || "",
-    base_price: product.base_price,
-    sale_price: product.sale_price,
-    is_active: product.is_active,
-    is_featured: product.is_featured,
+    id: product?.id,
+    slug: product?.slug,
+    name: product?.name,
+    description: product?.description || "",
+    base_price: product?.base_price,
+    sale_price: product?.sale_price,
+    is_active: product?.is_active,
+    is_featured: product?.is_featured,
     category_id: product?.product_categories[0]?.category?.id,
-    seo_title: product.seo_title || "",
-    seo_description: product.seo_description || "",
-    seo_keywords: product.seo_keywords || [],
+    seo_title: product?.seo_title || "",
+    seo_description: product?.seo_description || "",
+    seo_keywords: product?.seo_keywords || [],
 
     // Transform images
-    images: product.images.map((img) => ({
-      url: img.url,
-      alt_text: img.alt_text || "",
-      is_thumbnail: img.is_thumbnail,
-      sort_order: img.sort_order,
+    images: product?.images.map((img) => ({
+      url: img?.url,
+      alt_text: img?.alt_text || "",
+      is_thumbnail: img?.is_thumbnail,
+      sort_order: img?.sort_order,
     })),
 
     // Transform options - note the updated path through option
-    options: product.options.map((opt) => ({
-      name: opt.option?.name,
-      display_name: opt.option?.display_name,
-      values: opt.option?.values?.map((val) => ({
-        value: val.value,
-        display_value: val.display_value,
+    options: product?.options.map((opt) => ({
+      name: opt?.option?.name,
+      display_name: opt?.option?.display_name,
+      values: opt?.option?.values?.map((val) => ({
+        value: val?.value,
+        display_value: val?.display_value,
       })),
     })),
 
     // Transform variants
-    variants: product.variants.map((variant) => {
+    variants: product?.variants?.map((variant) => {
       // Parse SKU to get option values (format: "We-1kg-Fl-fish")
 
       const skuParts = variant?.sku?.split("-");
@@ -140,18 +140,18 @@ export default async function ProductDetailsPage({
       }
 
       return {
-        sku: variant.sku,
-        price: variant.price,
-        stock_quantity: variant.stock_quantity,
-        is_active: variant.is_active,
+        sku: variant?.sku,
+        price: variant?.price,
+        stock_quantity: variant?.stock_quantity,
+        is_active: variant?.is_active,
         option_values: optionValues,
       };
     }),
 
     // Transform attributes
-    attributes: product.attributes.map((attr) => ({
-      name: attr.name,
-      value: attr.value,
+    attributes: product?.attributes.map((attr) => ({
+      name: attr?.name,
+      value: attr?.value,
     })),
   };
 

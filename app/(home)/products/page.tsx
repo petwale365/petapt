@@ -4,6 +4,7 @@ import { ProductFilters } from "@/components/products/product-filters";
 import { SearchInput } from "@/components/ui/search-input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { createClient } from "@/utils/supabase/server";
+export const dynamic = "force-dynamic";
 
 interface Product {
   id: number;
@@ -22,43 +23,60 @@ async function getProducts(searchParams: {
 }) {
   const supabase = await createClient();
 
-  let query = supabase.from("products").select(
-    `
+  // First, get the product IDs that match the category filter
+  let productIds: string[] = [];
+  if (searchParams.categories) {
+    const categorySlugs = searchParams.categories.split(",");
+    const { data: categoryProducts } = await supabase
+      .from("product_categories")
+      .select("product_id, categories!inner(slug)")
+      .in("categories.slug", categorySlugs);
+
+    if (categoryProducts) {
+      productIds = categoryProducts.map((pc) => pc.product_id as string);
+      if (productIds.length === 0) return []; // No products in these categories
+    }
+  }
+
+  // Build the main products query
+  let query = supabase
+    .from("products")
+    .select(
+      `
       *,
       product_images (*),
-      category:categories (
-        name,
-        slug
+      product_categories (
+        categories (
+          name,
+          slug
+        )
       )
     `
-  );
+    )
+    .eq("is_active", true);
 
-  // Apply category filter
-  const categories = searchParams?.categories;
-  if (categories) {
-    const categorySlugs = categories.split(",");
-    query = query.in("category.slug", categorySlugs);
+  // Apply category filter if we have product IDs
+  if (searchParams.categories && productIds.length > 0) {
+    query = query.in("id", productIds);
   }
 
   // Apply price filter
-  const price = searchParams?.price;
-  if (price) {
-    const [min, max] = price.split("-").map(Number);
-    query = query.gte("base_price", min).lte("base_price", max);
+  if (searchParams.price) {
+    const [min, max] = searchParams.price.split("-").map(Number);
+    if (!isNaN(min)) query = query.gte("base_price", min);
+    if (!isNaN(max)) query = query.lte("base_price", max);
   }
 
   // Apply search filter
-  const search = searchParams?.search;
-  if (search) {
-    query = query.textSearch("name", search, {
+  if (searchParams.search) {
+    query = query.textSearch("name", searchParams.search, {
       type: "websearch",
       config: "english",
     });
   }
 
   // Apply sorting
-  const sort = searchParams?.sort;
-  switch (sort) {
+  switch (searchParams.sort) {
     case "price_asc":
       query = query.order("base_price", { ascending: true });
       break;
@@ -104,45 +122,37 @@ async function getMaxPrice() {
   return data?.base_price || 10000;
 }
 
-type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
-
 interface PageProps {
   params: Promise<{ [key: string]: string }>;
-  searchParams: SearchParams;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
 export default async function ProductsPage(props: PageProps) {
   const searchParams = await props.searchParams;
-
-  const productsPromise = getProducts({
-    categories: searchParams.categories as string | undefined,
-    price: searchParams.price as string | undefined,
-    sort: searchParams.sort as string | undefined,
-    search: searchParams.search as string | undefined,
-  });
-  const categoriesPromise = getCategories();
-  const maxPricePromise = getMaxPrice();
-
   const [products, categories, maxPrice] = await Promise.all([
-    productsPromise,
-    categoriesPromise,
-    maxPricePromise,
+    getProducts({
+      categories: searchParams.categories as string | undefined,
+      price: searchParams.price as string | undefined,
+      sort: searchParams.sort as string | undefined,
+      search: searchParams.search as string | undefined,
+    }),
+    getCategories(),
+    getMaxPrice(),
   ]);
 
   return (
     <div className="container mx-auto py-8 px-4 min-h-screen">
-      <h1 className="text-3xl font-bold text-center mb-8">
-        Explore Our Products
-      </h1>
-
-      <div className="flex flex-col lg:flex-row gap-8">
+      <div className="flex flex-col lg:flex-row gap-8 mt-20">
         {/* Filters Section */}
-        <aside className="lg:w-1/4">
+        <aside className="lg:w-1/4 pt-10 sticky top-20 left-0">
           <ProductFilters categories={categories} maxPrice={maxPrice} />
         </aside>
 
         {/* Products Section */}
         <main className="lg:w-3/4 space-y-6">
+          <h1 className="text-3xl font-bold text-left mb-8">
+            Explore Our Products
+          </h1>
           <div className="w-full max-w-md">
             <SearchInput />
           </div>
@@ -151,7 +161,7 @@ export default async function ProductsPage(props: PageProps) {
             <ProductGrid products={products as unknown as Product[]} />
           </Suspense>
 
-          {products?.length === 0 && (
+          {products.length === 0 && (
             <div className="text-center py-12">
               <h3 className="text-lg font-semibold">No products found</h3>
               <p className="text-muted-foreground">

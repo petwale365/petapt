@@ -1,25 +1,36 @@
-/* eslint-disable */
-
 "use client";
-import React from "react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import React, { useCallback, useState, useEffect } from "react";
+
 import { useQueryState } from "nuqs";
 import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { useDebounce } from "@/hooks/use-debounce";
+import debounce from "lodash/debounce";
 
 export function SearchInput() {
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const [search, setSearch] = useQueryState("search");
+  const [search, setSearch] = useQueryState("search", {
+    shallow: false,
+  });
 
-  const debouncedSearch = useDebounce((value: string) => {
-    setSearch(value || null);
-  }, 500);
+  // Keep local state for immediate input value updates
+  const [inputValue, setInputValue] = useState(search || "");
+
+  // Watch for search param changes (including reset)
+  useEffect(() => {
+    setInputValue(search || "");
+  }, [search]);
+
+  // Create a debounced version of setSearch
+  const debouncedSetSearch = useCallback(
+    debounce((value: string) => {
+      setSearch(value || null);
+    }, 500),
+    [setSearch]
+  );
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    debouncedSearch(e.target.value);
+    const value = e.target.value;
+    setInputValue(value); // Update local state immediately
+    debouncedSetSearch(value); // Debounce the URL update
   };
 
   return (
@@ -28,7 +39,7 @@ export function SearchInput() {
       <Input
         placeholder="Search products..."
         className="pl-10"
-        defaultValue={searchParams.get("search") || ""}
+        value={inputValue}
         onChange={handleSearch}
       />
     </div>
