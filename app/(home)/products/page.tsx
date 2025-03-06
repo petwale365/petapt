@@ -144,12 +144,12 @@ export default async function ProductsPage(props: PageProps) {
     <div className="container mx-auto py-8 px-4 min-h-screen">
       <div className="flex flex-col lg:flex-row gap-8 mt-20">
         {/* Filters Section */}
-        <aside className="lg:w-1/4 pt-10 sticky top-20 left-0">
+        <aside className="w-full lg:w-64 lg:pt-10">
           <ProductFilters categories={categories} maxPrice={maxPrice} />
         </aside>
 
         {/* Products Section */}
-        <main className="lg:w-3/4 space-y-6">
+        <main className="flex-1 space-y-6">
           <h1 className="text-3xl font-bold text-left mb-8">
             Explore Our Products
           </h1>

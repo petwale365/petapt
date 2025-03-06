@@ -2,20 +2,21 @@ import { Heart, ShoppingCart } from "lucide-react";
 import Image from "next/image";
 import { Button } from "./ui/button";
 import Link from "next/link";
-import { Product } from "@/data/types";
+import { Product } from "@/components/product-details/types";
 
 export const ProductCard = ({ product }: { product: Product }) => {
-  const { base_price, images, name, slug, sale_price } = product;
+  const { base_price, product_images, name, slug, sale_price } = product;
 
   return (
     <div className="group relative border rounded-md  overflow-hidden  pb-1 max-w-72">
       <Link href={`/products/${slug}`}>
         <div className="relative aspect-square overflow-hidden  bg-gray-100 ">
-          {images && (
+          {product_images && product_images.length > 0 && (
             <Image
-              src={images[0].url}
-              alt={name}
-              fill
+              src={product_images[0].url}
+              alt={product_images[0].alt_text || name}
+              width={500}
+              height={500}
               className="object-cover transition-transform duration-300 group-hover:scale-105"
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             />

@@ -38,6 +38,12 @@ export function formatDate(
   }
 }
 
+/**
+ * Format a price in INR currency.
+ *
+ * @param price - The price to format
+ * @returns A string representation of the price in INR currency
+ */
 export function formatPrice(price: number) {
   return new Intl.NumberFormat("en-US", {
     style: "currency",

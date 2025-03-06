@@ -82,7 +82,7 @@ export const ProductFilters = ({
     <motion.div
       initial={{ opacity: 0, x: -20 }}
       animate={{ opacity: 1, x: 0 }}
-      className="w-full lg:w-64 lg:sticky lg:top-24 lg:max-h-[calc(100vh-6rem)] lg:overflow-y-auto scrollbar-hide pb-8"
+      className="w-full lg:w-64  lg:max-h-[calc(100vh-6rem)] lg:overflow-y-auto scrollbar-hide pb-8"
     >
       <div className="flex items-center justify-between mb-4">
         <h3 className="font-semibold">Filters</h3>

@@ -336,3 +336,26 @@ create table public.variant_option_values (
   constraint variant_option_values_option_value_id_fkey foreign KEY (option_value_id) references option_values (id) on delete CASCADE,
   constraint variant_option_values_variant_id_fkey foreign KEY (variant_id) references product_variants (id)
 ) TABLESPACE pg_default;
+
+
+create table public.cart_items (
+  id uuid not null default extensions.uuid_generate_v4 (),
+  user_id uuid null,
+  session_id text not null,
+  product_id uuid not null,
+  variant_id uuid null,
+  quantity integer not null default 1,
+  created_at timestamp with time zone null default CURRENT_TIMESTAMP,
+  updated_at timestamp with time zone null default CURRENT_TIMESTAMP,
+  constraint cart_items_pkey primary key (id),
+  constraint cart_items_session_id_product_id_variant_id_key unique (session_id, product_id, variant_id),
+  constraint cart_items_user_id_product_id_variant_id_key unique (user_id, product_id, variant_id),
+  constraint cart_items_product_id_fkey foreign KEY (product_id) references products (id) on delete CASCADE,
+  constraint cart_items_user_id_fkey foreign KEY (user_id) references auth.users (id) on delete CASCADE,
+  constraint cart_items_variant_id_fkey foreign KEY (variant_id) references product_variants (id) on delete CASCADE,
+  constraint cart_items_quantity_check check ((quantity > 0))
+) TABLESPACE pg_default;
+
+create index IF not exists idx_cart_items_user_id on public.cart_items using btree (user_id) TABLESPACE pg_default;
+
+create index IF not exists idx_cart_items_session_id on public.cart_items using btree (session_id) TABLESPACE pg_default;
