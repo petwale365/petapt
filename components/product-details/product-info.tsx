@@ -2,10 +2,11 @@
 
 import React from "react";
 import Link from "next/link";
-import { Share2, Facebook, Twitter } from "lucide-react";
+
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { Category } from "./types";
+import { FaFacebook, FaTwitter, FaWhatsapp } from "react-icons/fa";
 
 interface ProductInfoProps {
   name: string;
@@ -27,17 +28,17 @@ export function ProductInfo({
   const shareLinks = [
     {
       name: "Facebook",
-      icon: Facebook,
+      icon: FaFacebook,
       url: `https://www.facebook.com/sharer/sharer.php?u=${shareUrl}`,
     },
     {
       name: "Twitter",
-      icon: Twitter,
+      icon: FaTwitter,
       url: `https://twitter.com/intent/tweet?url=${shareUrl}&text=${shareText}`,
     },
     {
       name: "WhatsApp",
-      icon: Share2,
+      icon: FaWhatsapp,
       url: `https://wa.me/?text=${shareText} ${shareUrl}`,
     },
   ];

@@ -16,7 +16,6 @@ export default async function ProductDetailsPage({ params }: PageProps) {
     notFound();
   }
 
-  console.log(products);
   return (
     <div className="py-20">
       <ProductDetails product={products} />

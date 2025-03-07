@@ -12,6 +12,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Plus, Minus, ShoppingCart, Check } from "lucide-react";
 import { Product, ProductVariant } from "@/supabase/types";
+import { useCart } from "@/hooks/use-cart";
 
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -30,6 +31,7 @@ export function ProductVariants({
 }: ProductVariantsProps) {
   const [quantity, setQuantity] = useState(1);
   const [isAddingToCart, setIsAddingToCart] = useState(false);
+  const { addToCart, openCart } = useCart();
 
   const selectedVariant = variants.find((v) => v.id === selectedVariantId);
 
@@ -41,7 +43,23 @@ export function ProductVariants({
   };
 
   const handleAddToCart = async () => {
-    if (!selectedVariant) return;
+    if (!selectedVariant || !product) return;
+
+    setIsAddingToCart(true);
+
+    try {
+      // Add item to cart
+      addToCart(product.id, selectedVariant.id, quantity);
+
+      // Show "Added to Cart" for 1.5 seconds, then reset
+      setTimeout(() => {
+        setIsAddingToCart(false);
+        openCart(); // Open cart sheet after adding item
+      }, 1500);
+    } catch (error) {
+      console.error("Error adding to cart:", error);
+      setIsAddingToCart(false);
+    }
   };
 
   return (

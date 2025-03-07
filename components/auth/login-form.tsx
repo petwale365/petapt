@@ -13,9 +13,13 @@ import Link from "next/link";
 import { toast } from "sonner";
 import { createClient } from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
-import { useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { Loader2 } from "lucide-react";
 import PasswordInput from "./password-input";
+import { User } from "@supabase/supabase-js";
+
+import { useCart } from "@/hooks/use-cart";
+import { useQueryClient } from "@tanstack/react-query";
 
 // Validation schema
 const loginSchema = z.object({
@@ -36,6 +40,17 @@ export default function LoginForm() {
   const [isPending, startTransition] = useTransition();
   const supabase = createClient();
   const router = useRouter();
+  const [user, setUser] = useState<User | null>(null);
+  const { refetch } = useCart();
+  const queryClient = useQueryClient();
+
+  useEffect(() => {
+    supabase.auth.getUser().then((data) => {
+      setUser(data.data.user);
+    });
+  }, [supabase]);
+
+  console.log("User in LoginForm:", user);
 
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
@@ -55,12 +70,46 @@ export default function LoginForm() {
   async function onSubmit(data: LoginFormValues) {
     startTransition(async () => {
       try {
-        const { error } = await supabase.auth.signInWithPassword({
-          email: data.email,
-          password: data.password,
-        });
+        // Store anonymous user ID if user is anonymous
+        const anonUserId = user?.id;
+        const isAnonymous = user?.is_anonymous === true;
+        console.log("Current user before login:", { anonUserId, isAnonymous });
 
-        if (error) throw error;
+        // Clear existing queries to prevent stale data
+        queryClient.removeQueries({ queryKey: ["user"] });
+        queryClient.removeQueries({ queryKey: ["cart"] });
+
+        const { data: authData, error } =
+          await supabase.auth.signInWithPassword({
+            email: data.email,
+            password: data.password,
+          });
+
+        if (error) {
+          throw error;
+        }
+
+        // Successfully logged in
+        console.log("Successfully logged in as:", authData.user?.id);
+
+        // If we had an anonymous user before, merge their cart
+        if (isAnonymous && anonUserId) {
+          console.log("Merging anonymous cart:", anonUserId);
+
+          try {
+            await supabase.rpc("copy_anon_cart", {
+              anonymous_id: anonUserId.toString(),
+            });
+            console.log("Successfully copied items from anonymous cart");
+          } catch (copyError) {
+            console.error("Failed to copy anonymous cart:", copyError);
+          }
+        }
+
+        // Make sure to refetch the cart with the new user ID
+        queryClient.invalidateQueries({ queryKey: ["user"] });
+        queryClient.invalidateQueries({ queryKey: ["cart"] });
+        refetch();
 
         toast.success("Logged in successfully!");
         router.push("/");
@@ -90,12 +139,31 @@ export default function LoginForm() {
   async function handleGoogleLogin() {
     startTransition(async () => {
       try {
-        await supabase.auth.signInWithOAuth({
+        // Store anonymous user ID before redirect
+        const anonUserId = user?.id;
+        const isAnonymous = user?.is_anonymous === true;
+        console.log("Anonymous user before Google login:", {
+          anonUserId,
+          isAnonymous,
+        });
+
+        // Store the anonymous ID in localStorage to retrieve after OAuth redirect
+        if (isAnonymous && anonUserId) {
+          localStorage.setItem("anonymous_user_id", anonUserId);
+        }
+
+        const { error } = await supabase.auth.signInWithOAuth({
           provider: "google",
           options: {
             redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback?next=/`,
           },
         });
+
+        if (error) {
+          throw error;
+        }
+
+        // The redirect will happen automatically if no error
       } catch (error) {
         if (error instanceof Error) {
           toast.error("Failed to login. Please try again");

@@ -1,4 +1,6 @@
+import { createClient } from "@/utils/supabase/server";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { ReactNode } from "react";
 
 interface AuthLayoutProps {
@@ -7,15 +9,15 @@ interface AuthLayoutProps {
 
 export default async function AuthLayout({ children }: AuthLayoutProps) {
   // Check if user is authenticated
-  // const supabase = await createClient();
-  // const {
-  //   data: { session },
-  // } = await supabase.auth.getSession();
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
-  // // If user is authenticated, redirect to home page
-  // if (session) {
-  //   redirect("/");
-  // }
+  //if user is not anonymous, redirect to home
+  if (!user?.is_anonymous) {
+    redirect("/");
+  }
 
   return (
     <div className="min-h-screen flex flex-col">

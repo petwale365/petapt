@@ -21,6 +21,8 @@ export default async function HomeLayout({
     .eq("id", userid!)
     .single();
 
+  console.log("Profile:", profile);
+
   return (
     <>
       <Navbar profile={profile as unknown as AppUser} />

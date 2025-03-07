@@ -31,12 +31,16 @@ export type ProductWithDetails = Product & {
   category?: Category;
 };
 
+// Update the CartItem type to match the database schema
+
+// Extended CartItem with product details
 export type CartItemWithProductDetails = CartItem & {
   product: ProductWithDetails;
-  variant?: ProductVariant;
+  variant: ProductVariant | null; // Changed from undefined to null to match database
   productImage?: string;
 };
 
+// Cart summary information
 export type CartSummary = {
   subtotal: number;
   itemCount: number;

@@ -78,31 +78,25 @@ export type Database = {
         Row: {
           created_at: string | null
           id: string
-          product_id: string
+          product_id: string | null
           quantity: number
-          session_id: string
-          updated_at: string | null
-          user_id: string | null
+          user_id: string
           variant_id: string | null
         }
         Insert: {
           created_at?: string | null
           id?: string
-          product_id: string
+          product_id?: string | null
           quantity?: number
-          session_id: string
-          updated_at?: string | null
-          user_id?: string | null
+          user_id: string
           variant_id?: string | null
         }
         Update: {
           created_at?: string | null
           id?: string
-          product_id?: string
+          product_id?: string | null
           quantity?: number
-          session_id?: string
-          updated_at?: string | null
-          user_id?: string | null
+          user_id?: string
           variant_id?: string | null
         }
         Relationships: [
@@ -115,6 +109,13 @@ export type Database = {
           },
           {
             foreignKeyName: "cart_items_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "cart_items_user_id_fkey1"
             columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "users"
@@ -990,7 +991,12 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      copy_anon_cart: {
+        Args: {
+          anonymous_id: string
+        }
+        Returns: undefined
+      }
     }
     Enums: {
       address_type: "shipping" | "billing"

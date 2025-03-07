@@ -3,6 +3,7 @@ import { Geist, Geist_Mono, Poppins } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
+import { TanstackQueryClientProvider } from "@/providers/queryClient";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -38,8 +39,11 @@ export default async function RootLayout({
       <body
         className={`${geistMono.variable} ${poppins.variable} min-h-screen`}
       >
-        <NuqsAdapter>{children}</NuqsAdapter>
-        <Toaster />
+        <TanstackQueryClientProvider>
+          <NuqsAdapter>{children}</NuqsAdapter>
+
+          <Toaster />
+        </TanstackQueryClientProvider>
       </body>
     </html>
   );
