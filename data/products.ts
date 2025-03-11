@@ -1,9 +1,9 @@
+/*eslint-disable */
 "use server";
 
 import { createClient } from "@/utils/supabase/server";
-import { Product } from "@/components/product-details/types";
 
-export async function getProductsBySlug(slug: string): Promise<Product | null> {
+export async function getProductsBySlug(slug: string): Promise<any> {
   const supabase = await createClient();
 
   const { data: products } = await supabase

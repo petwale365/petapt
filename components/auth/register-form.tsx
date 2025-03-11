@@ -10,11 +10,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { createClient } from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
-import { useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import Link from "next/link";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import PasswordInput from "./password-input";
+import { User } from "@supabase/supabase-js";
+import { useQueryClient } from "@tanstack/react-query";
 
 // Validation schema
 const registerSchema = z
@@ -49,6 +51,17 @@ export default function RegisterForm() {
   const [isPending, startTransition] = useTransition();
   const supabase = createClient();
   const router = useRouter();
+  const [user, setUser] = useState<User | null>(null);
+  const queryClient = useQueryClient();
+
+  // Fetch current user on component mount
+  useEffect(() => {
+    supabase.auth.getUser().then((data) => {
+      setUser(data.data.user);
+    });
+  }, [supabase]);
+
+  console.log("User in RegisterForm:", user);
 
   const form = useForm<RegisterFormValues>({
     resolver: zodResolver(registerSchema),
@@ -69,6 +82,18 @@ export default function RegisterForm() {
   async function onSubmit(data: RegisterFormValues) {
     startTransition(async () => {
       try {
+        // Store anonymous user ID if user is anonymous
+        const anonUserId = user?.id;
+        const isAnonymous = user?.is_anonymous === true;
+        console.log("Current user before registration:", {
+          anonUserId,
+          isAnonymous,
+        });
+
+        // Clear existing queries to prevent stale data
+        queryClient.removeQueries({ queryKey: ["user"] });
+        queryClient.removeQueries({ queryKey: ["cart"] });
+
         const { error } = await supabase.auth.signUp({
           email: data.email,
           password: data.password,
@@ -81,6 +106,16 @@ export default function RegisterForm() {
 
         if (error) throw error;
 
+        // If we had an anonymous user before, store the ID to merge cart after email verification
+        // Store the anonymous ID in localStorage to retrieve after OAuth redirect
+        if (isAnonymous && anonUserId) {
+          localStorage.setItem("anonymous_user_id", anonUserId);
+          console.log(
+            "Stored anonymous user ID for Google signup:",
+            anonUserId
+          );
+        }
+
         toast.success(
           "Registration successful! Please check your email to verify your account."
         );
@@ -88,14 +123,16 @@ export default function RegisterForm() {
       } catch (error) {
         if (error instanceof Error) {
           switch (error.message) {
-            case "Invalid login credentials":
-              toast.error("Invalid email or password");
+            case "User already registered":
+              toast.error(
+                "This email is already registered. Please login instead."
+              );
               break;
-            case "Email not confirmed":
-              toast.error("Please verify your email before logging in");
+            case "Invalid email format":
+              toast.error("Please enter a valid email address");
               break;
             default:
-              toast.error("Failed to register. Please try again");
+              toast.error(`Failed to register: ${error.message}`);
           }
         } else {
           toast.error("An unexpected error occurred");
@@ -107,15 +144,37 @@ export default function RegisterForm() {
   async function handleGoogleLogin() {
     startTransition(async () => {
       try {
-        await supabase.auth.signInWithOAuth({
+        // Store anonymous user ID before redirect
+        const anonUserId = user?.id;
+        const isAnonymous = user?.is_anonymous === true;
+        console.log("Anonymous user before Google signup:", {
+          anonUserId,
+          isAnonymous,
+        });
+
+        // Store the anonymous ID in localStorage to retrieve after OAuth redirect
+        if (isAnonymous && anonUserId) {
+          localStorage.setItem("anonymous_user_id", anonUserId);
+          console.log(
+            "Stored anonymous user ID for Google signup:",
+            anonUserId
+          );
+        }
+
+        const { error } = await supabase.auth.signInWithOAuth({
           provider: "google",
           options: {
             redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback?next=/`,
           },
         });
+
+        if (error) throw error;
+
+        // Redirect happens automatically
       } catch (error) {
+        console.error("Google signup error:", error);
         if (error instanceof Error) {
-          toast.error("Failed to login. Please try again");
+          toast.error(`Failed to sign up: ${error.message}`);
         } else {
           toast.error("An unexpected error occurred");
         }

@@ -20,6 +20,7 @@ export function SearchInput() {
   }, [search]);
 
   // Create a debounced version of setSearch
+  /*eslint-disable */
   const debouncedSetSearch = useCallback(
     debounce((value: string) => {
       setSearch(value || null);

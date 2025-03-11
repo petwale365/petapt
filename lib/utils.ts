@@ -50,3 +50,32 @@ export function formatPrice(price: number) {
     currency: "INR",
   }).format(price);
 }
+
+// lib/create-store-url.ts
+
+/**
+ * Creates a URL with search parameters
+ *
+ * @param path - The base path for the URL
+ * @param params - Object containing search params to add to the URL
+ * @returns The constructed URL string
+ */
+export function createStoreURL(
+  path: string,
+  params?: Record<string, string | number | boolean | undefined>
+): string {
+  const url = new URL(
+    path,
+    process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"
+  );
+
+  if (params) {
+    Object.entries(params).forEach(([key, value]) => {
+      if (value !== undefined) {
+        url.searchParams.set(key, String(value));
+      }
+    });
+  }
+
+  return url.toString().replace(/^https?:\/\/[^/]+/, "");
+}

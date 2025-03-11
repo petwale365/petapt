@@ -1,0 +1,45 @@
+/* styles/captcha.css */
+
+/* Style the captcha container */
+.captcha-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+/* Style the captcha canvas */
+.simple-captcha-wrapper {
+  width: 100%;
+  margin-bottom: 1rem;
+  border-radius: 0.375rem;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Style the reload button */
+.reloadText {
+  background-color: #f3f4f6 !important;
+  color: #374151 !important;
+  border: 1px solid #d1d5db !important;
+  border-radius: 0.25rem !important;
+  padding: 0.25rem 0.5rem !important;
+  font-size: 0.875rem !important;
+  cursor: pointer !important;
+  transition: all 0.2s !important;
+  margin-top: 0.5rem !important;
+}
+
+.reloadText:hover {
+  background-color: #e5e7eb !important;
+}
+
+/* Make the canvas better on mobile */
+@media (max-width: 640px) {
+  .captcha-container {
+    max-width: 100%;
+  }
+}

@@ -15,9 +15,6 @@ class ShiprocketAuth {
       .limit(1)
       .single();
 
-    console.log("Inside getValidToken");
-    console.log("auth", auth);
-
     // 2. If valid token exists, return it
     if (auth?.token) {
       return auth.token;
@@ -44,10 +41,6 @@ class ShiprocketAuth {
       );
 
       const data = await response.json();
-
-      console.log("Inside generateNewToken");
-      console.log("data", data);
-
       if (data.token) {
         // Store new token
         const supabase = await createClient();

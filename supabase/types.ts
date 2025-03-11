@@ -14,7 +14,7 @@ export type Collection = Database["public"]["Tables"]["collections"]["Row"];
 export type Address = Database["public"]["Tables"]["addresses"]["Row"];
 export type CartItem = Database["public"]["Tables"]["cart_items"]["Row"];
 export type Order = Database["public"]["Tables"]["orders"]["Row"];
-export type OrderItem = Database["public"]["Tables"]["order_items"]["Row"];
+// export type OrderItem = Database["public"]["Tables"]["order_items"]["Row"];
 export type User = Database["public"]["Tables"]["users"]["Row"];
 
 // Enum Types
@@ -64,3 +64,9 @@ export type CartItemUpdate =
 export type AddressUpdate = Database["public"]["Tables"]["addresses"]["Update"];
 
 export type AppUser = Database["public"]["Tables"]["users"]["Row"];
+
+// Order Item type with expanded product and variant info
+export type OrderItem = Database["public"]["Tables"]["order_items"]["Row"] & {
+  product: Product;
+  variant?: ProductVariant | null;
+};

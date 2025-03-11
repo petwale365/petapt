@@ -115,13 +115,6 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "cart_items_user_id_fkey1"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-          {
             foreignKeyName: "cart_items_variant_id_fkey"
             columns: ["variant_id"]
             isOneToOne: false
@@ -991,9 +984,50 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      add_order_item: {
+        Args: {
+          p_order_id: string
+          p_product_id: string
+          p_variant_id: string
+          p_quantity: number
+          p_unit_price: number
+          p_total_price: number
+        }
+        Returns: string
+      }
       copy_anon_cart: {
         Args: {
           anonymous_id: string
+        }
+        Returns: undefined
+      }
+      create_order: {
+        Args: {
+          p_user_id: string
+          p_order_number: string
+          p_shipping_address_id: string
+          p_billing_address_id: string
+          p_subtotal: number
+          p_total_amount: number
+          p_payment_method: string
+          p_payment_status: string
+          p_status: string
+        }
+        Returns: string
+      }
+      update_order_with_shipping: {
+        Args: {
+          order_id: string
+          new_status: string
+          sr_order_id: number
+          sr_shipment_id: number
+          sr_tracking: string
+          sr_courier: string
+          pickup_loc: string
+          pkg_length: number
+          pkg_breadth: number
+          pkg_height: number
+          pkg_weight: number
         }
         Returns: undefined
       }

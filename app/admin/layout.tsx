@@ -31,6 +31,10 @@ export default async function AdminLayout({
     redirect("/login");
   }
 
+  if (user.is_anonymous) {
+    redirect("/");
+  }
+
   // Get user role from profiles table
   const { data: profile } = await supabase
     .from("users")
