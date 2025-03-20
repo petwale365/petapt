@@ -63,7 +63,10 @@ const Hero = () => {
     "https://images.unsplash.com/photo-1549291981-56d443d5e2a2",
     "https://images.unsplash.com/photo-1518288774672-b94e808873ff",
   ];
-
+  //Banner Images
+  const bannerImages = [
+    "/images/launching_soon.png",
+  ];
   // Image rotation interval
   useEffect(() => {
     const timer = setInterval(() => {
@@ -123,6 +126,17 @@ const Hero = () => {
 
       {/* Main Content */}
       <div className="max-w-screen-xl px-4 mx-auto sm:px-6 lg:px-8">
+        {/* Banner Image */}
+        <div className="w-full mb-8">
+          <Image
+            src={bannerImages[0]}
+            alt="Launching Soon"
+            width={1280}
+            height={300}
+            className="w-full object-cover rounded-lg"
+            priority
+          />
+        </div>
         {/* Content Wrapper - Reduced height for mobile */}
         <div className="relative py-8 md:min-h-[80vh] md:py-16 lg:py-20">
           <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-12">

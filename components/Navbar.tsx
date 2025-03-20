@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { ShoppingCart, Heart, Shield } from "lucide-react";
 import {
   Bolt,
@@ -183,8 +184,18 @@ export default function Navbar({ profile }: NavbarProps) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             {/* Logo */}
-            <Link href="/" className="flex items-center">
-              <span className="ml-2 text-xl font-bold italic">PETAPT</span>
+            <Link href="/" className="flex items-center gap-2">
+              <Image
+                src="/images/logo.png"
+                alt="PETAPT Logo"
+                width={60}
+                height={60}
+                className="object-cover rounded-full"
+                priority
+              />
+              <span className="text-2xl font-extrabold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
+                PetApt
+              </span>
             </Link>
 
             {/* Navigation Links */}
