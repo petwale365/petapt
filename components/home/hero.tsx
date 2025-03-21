@@ -127,17 +127,20 @@ const Hero = () => {
       {/* Main Content */}
       <div className="max-w-screen-xl px-4 mx-auto sm:px-6 lg:px-8">
         {/* Banner Image */}
-        <div className="w-full mb-8">
-          <Image
-            src={bannerImages[0]}
-            alt="Launching Soon"
-            width={1280}
-            height={300}
-            className="w-full object-cover rounded-lg"
-            priority
+        <div className="flex flex-col items-center justify-center py-4 bg-gradient-to-b from-green-100 to-green-300 text-center p-6 rounded-lg mb-8">
+          <Image 
+            src="/images/banner-logo.jpeg" 
+            alt="PetApt Logo" 
+            width={120} 
+            height={120} 
+            className="mb-4 aspect-square rounded-full border-4 border-white shadow-lg overflow-hidden" 
+            style={{ objectFit: 'cover' }}
           />
+          <h1 className="text-3xl font-bold text-green-800 mb-2">Launching Soon!</h1>
+          <p className="text-lg text-green-700">We're bringing something pawsome for your pets. Stay tuned!</p>
         </div>
-        {/* Content Wrapper - Reduced height for mobile */}
+
+        {/* Content Wrapper - Rest of the content */}
         <div className="relative py-8 md:min-h-[80vh] md:py-16 lg:py-20">
           <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-12">
             {/* Left Column - Content */}
