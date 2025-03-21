@@ -63,10 +63,6 @@ const Hero = () => {
     "https://images.unsplash.com/photo-1549291981-56d443d5e2a2",
     "https://images.unsplash.com/photo-1518288774672-b94e808873ff",
   ];
-  //Banner Images
-  const bannerImages = [
-    "/images/launching_soon.png",
-  ];
   // Image rotation interval
   useEffect(() => {
     const timer = setInterval(() => {
