@@ -133,7 +133,7 @@ const Hero = () => {
             style={{ objectFit: 'cover' }}
           />
           <h1 className="text-3xl font-bold text-green-800 mb-2">Launching Soon!</h1>
-          <p className="text-lg text-green-700">We're bringing something pawsome for your pets. Stay tuned!</p>
+          <p className="text-lg text-green-700">We&apos;re bringing something pawsome for your pets. Stay tuned!</p>
         </div>
 
         {/* Content Wrapper - Rest of the content */}
